@@ -123,7 +123,7 @@ export function fragmentedDisk() {
 }
 
 /** 1〜2 個のファイルを使用中にする。使用中にしたファイル番号を返す */
-export function randomLocks(files) {
+function randomLocks(files) {
   files.forEach(f => { f.locked = false })
   const idx = shuffle([...files.keys()]).slice(0, 1 + rand(2))
   idx.forEach(i => { files[i].locked = true })

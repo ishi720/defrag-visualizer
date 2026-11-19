@@ -18,7 +18,6 @@
   <div class="row">
     <button @click="fragment()"><i class="ti ti-arrows-shuffle"></i>ランダムに断片化</button>
     <button @click="restore()"><i class="ti ti-arrow-back-up"></i>初期状態に戻す</button>
-    <button @click="randomLock()"><i class="ti ti-lock"></i>使用中をランダムに決める</button>
     <button @click="toggleRun()">
       <i class="ti" :class="running ? 'ti-player-pause' : 'ti-player-play'"></i>
       <span x-text="running ? '一時停止' : 'デフラグ開始'"></span>

@@ -3,7 +3,7 @@
 
 import {
   N, NAMES, COLORS, isLocked, countFragments, countHoles,
-  copyDisk, fragmentedDisk, randomLocks, applyStep
+  copyDisk, fragmentedDisk, applyStep
 } from './disk.js'
 import { plan98 } from './algorithms/win98.js'
 import { planXP } from './algorithms/xp.js'
@@ -63,7 +63,6 @@ export default () => ({
     if (!this.initial) return
     this.load({ disk: copyDisk(this.initial.disk), files: this.initial.files.map(f => ({ ...f })) })
   },
-  randomLock() { this.stop(); randomLocks(this.files); this.resetPlan() },
   resetPlan() { this.steps = []; this.si = 0 },
   setMode(m) {
     if (this.mode === m) return
