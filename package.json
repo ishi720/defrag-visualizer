@@ -1,0 +1,18 @@
+{
+  "name": "defrag-visualizer",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tabler/icons-webfont": "^3.0.0",
+    "alpinejs": "^3.14.0"
+  },
+  "devDependencies": {
+    "vite": "^6.0.0"
+  }
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>デフラグ・ビジュアライザー</title>
+  <script type="module" src="/src/main.js"></script>
+</head>
+<body>
+<main x-data="defrag">
+  <h1>デフラグ・ビジュアライザー</h1>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" :class="{ on: mode === '98' }" :aria-selected="mode === '98'" @click="setMode('98')">95・98式</button>
+    <button role="tab" :class="{ on: mode === 'xp' }" :aria-selected="mode === 'xp'" @click="setMode('xp')">XP式</button>
+  </div>
+
+  <div class="row">
+    <button @click="fragment()"><i class="ti ti-arrows-shuffle"></i>ランダムに断片化</button>
+    <button @click="restore()"><i class="ti ti-arrow-back-up"></i>初期状態に戻す</button>
+    <button @click="randomLock()"><i class="ti ti-lock"></i>使用中をランダムに決める</button>
+    <button @click="toggleRun()">
+      <i class="ti" :class="running ? 'ti-player-pause' : 'ti-player-play'"></i>
+      <span x-text="running ? '一時停止' : 'デフラグ開始'"></span>
+    </button>
+  </div>
+
+  <div class="row">
+    <span class="lbl">速度</span>
+    <input type="range" min="1" max="10" step="1" x-model.number="speed" style="flex:1;min-width:120px">
+    <label class="lbl" style="display:inline-flex;align-items:center;gap:6px;cursor:pointer">
+      <input type="checkbox" x-model="anim">
+      アニメーション
+    </label>
+  </div>
+
+  <div id="wrap" x-ref="wrap">
+    <div class="grid" x-ref="grid" @pointerdown="down($event)" @pointermove="move($event)" @pointerup="up()" @pointercancel="up()">
+      <template x-for="(v, i) in view" :key="i">
+        <div class="c" :data-i="i" :class="cellClass(i, v)" :style="cellStyle(v)">
+          <template x-if="v && isLk(v)"><i class="ti ti-lock"></i></template>
+          <template x-if="v && !isLk(v)"><span x-text="NAMES[v.f]"></span></template>
+        </div>
+      </template>
+    </div>
+    <div class="layer" x-ref="layer"></div>
+  </div>
+
+  <div class="legend">
+    <template x-for="(f, i) in files" :key="i">
+      <span>
+        <i class="sw" :style="`background:${COLORS[i]}`"><i class="ti ti-lock" x-show="f.locked"></i></i>
+        <span x-text="`ファイル${NAMES[i]}（${f.size}）${f.locked ? '使用中' : ''}`"></span>
+      </span>
+    </template>
+    <span><i class="sw" style="background:var(--panel)"></i>空き</span>
+  </div>
+
+  <div class="stats">
+    <div class="st"><p>断片の数</p><b x-text="frag"></b></div>
+    <div class="st"><p>空き領域の穴</p><b x-text="holes"></b></div>
+    <div class="st"><p>確認したマス</p><b x-text="checked"></b></div>
+    <div class="st"><p>移動したクラスタ</p><b x-text="moved"></b></div>
+    <div class="st"><p>使用中で動かせない</p><b x-text="lockedCount + 'マス'"></b></div>
+  </div>
+</main>
+</body>
+</html>
